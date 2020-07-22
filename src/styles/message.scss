@@ -1,0 +1,12 @@
+.msg-wrap {
+  padding:  15px 5px;
+}
+
+.msg {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  border: 1px solid rgba(0,0,0,.3);
+  border-radius: 3px;
+  margin-bottom: 5px;
+}

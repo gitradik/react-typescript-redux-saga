@@ -4,10 +4,12 @@ export interface SystemState {
   userName: string
 }
 
-export const UPDATE_SESSION = 'UPDATE_SESSION'
+export enum Types {
+  UPDATE_SESSION = 'UPDATE_SESSION',
+}
 
 interface UpdateSessionAction {
-  type: typeof UPDATE_SESSION
+  type: typeof Types.UPDATE_SESSION
   payload: SystemState
 }
 

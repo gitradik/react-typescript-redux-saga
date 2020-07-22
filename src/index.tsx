@@ -6,9 +6,11 @@ import './index.scss'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
+const store = configureStore()
+
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={configureStore()}>
+    <Provider store={store}>
       <App />
     </Provider>
   </React.StrictMode>,

@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { Types as ChatTypes, Message } from '../store/chat/types'
 import { Topic } from 'pages/index'
 import { RootStateType } from '../store'
+import { AppContext } from '../App'
 
 const mapState = (state: RootStateType) => ({
   messages: state.chat.messages,
@@ -28,39 +29,65 @@ const Dashboard = (props: Props) => {
       timestamp: 20,
       message: 'new message',
     }
+
     props.sendMessage(msg)
   }
 
   const getMessages = () =>
-    Array.isArray(props.messages)
-      ? props.messages.map((msg: Message, i: number) => i + 1 + '. ' + msg.message)
+    props.messages.length
+      ? props.messages.map((msg: Message) => (
+        <div className="msg">
+          <span>{msg.user}</span>
+          <span>{msg.message}</span>
+          <span>{msg.timestamp}</span>
+        </div>
+      ))
       : 'not messages'
 
+  const getLangElm = (lang?: string): JSX.Element => {
+    let val
+    switch (lang) {
+      case 'ru':
+        val = 'Russian'
+        break
+      default:
+        val = 'English'
+        break
+    }
+    return <span>"{val}"</span>
+  }
+
   return (
-    <div className="page">
-      Dashboard
-      <ul>
-        <li>
-          <Link to={`${url}/rendering`}>Rendering with React</Link>
-        </li>
-        <li>
-          <Link to={`${url}/components`}>Components</Link>
-        </li>
-        <li>
-          <Link to={`${url}/props-v-state`}>Props v. State</Link>
-        </li>
-      </ul>
-      <Switch>
-        <Route exact={true} path={path}>
-          <h3>Please select a topic.</h3>
-        </Route>
-        <Route path={`${path}/:topicId`}>
-          <Topic />
-        </Route>
-      </Switch>
-      <div style={{ marginTop: '30px', marginBottom: '30px' }}>{getMessages()}</div>
-      <button onClick={onClickSendMessage}>send</button>
-    </div>
+    <AppContext.Consumer>
+      {({ lang }) => {
+        return (
+          <div className="page">
+            <h1>Dashboard {getLangElm(lang)}</h1>
+            <ul>
+              <li>
+                <Link to={`${url}/rendering`}>Rendering with React</Link>
+              </li>
+              <li>
+                <Link to={`${url}/components`}>Components</Link>
+              </li>
+              <li>
+                <Link to={`${url}/props-v-state`}>Props v. State</Link>
+              </li>
+            </ul>
+            <Switch>
+              <Route exact={true} path={path}>
+                <h3>Please select a topic.</h3>
+              </Route>
+              <Route path={`${path}/:topicId`}>
+                <Topic />
+              </Route>
+            </Switch>
+            <div className="msg-wrap">{getMessages()}</div>
+            <button onClick={onClickSendMessage}>send</button>
+          </div>
+        )
+      }}
+    </AppContext.Consumer>
   )
 }
 
