@@ -35,13 +35,13 @@ const Dashboard = (props: Props) => {
 
   const getMessages = () =>
     props.messages.length
-      ? props.messages.map((msg: Message) => (
-        <div className="msg">
-          <span>{msg.user}</span>
-          <span>{msg.message}</span>
-          <span>{msg.timestamp}</span>
-        </div>
-      ))
+      ? props.messages.map((msg: Message, i: number) => (
+          <div key={`Dashboard_msg_${i}`} className="msg">
+            <span>{msg.user}</span>
+            <span>{msg.message}</span>
+            <span>{msg.timestamp}</span>
+          </div>
+        ))
       : 'not messages'
 
   const getLangElm = (lang?: string): JSX.Element => {
