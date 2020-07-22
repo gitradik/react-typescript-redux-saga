@@ -33,7 +33,7 @@ const Dashboard = (props: Props) => {
     props.sendMessage(msg)
   }
 
-  const getMessages = () =>
+  const getMessagesView = () =>
     props.messages.length
       ? props.messages.map((msg: Message, i: number) => (
           <div key={`Dashboard_msg_${i}`} className="msg">
@@ -82,7 +82,7 @@ const Dashboard = (props: Props) => {
                 <Topic />
               </Route>
             </Switch>
-            <div className="msg-wrap">{getMessages()}</div>
+            <div className="msg-wrap">{getMessagesView()}</div>
             <button onClick={onClickSendMessage}>send</button>
           </div>
         )

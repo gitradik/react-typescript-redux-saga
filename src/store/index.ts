@@ -1,5 +1,6 @@
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
+import throttle from 'lodash.throttle'
 
 import { systemReducer } from './system/reducers'
 import { chatReducer } from './chat/reducers'
@@ -22,9 +23,12 @@ export const configureStore = () => {
   const store = createStore(rootReducer, loadState(), compose(applyMiddleware(...middleware)))
 
   sagaMiddleware.run(rootSaga)
-  store.subscribe(() => {
-    saveState({ chat: store.getState().chat })
-  })
+
+  store.subscribe(
+    throttle(() => {
+      saveState({ chat: store.getState().chat })
+    }, 1000)
+  )
 
   return store
 }
